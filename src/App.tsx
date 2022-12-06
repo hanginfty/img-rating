@@ -1,40 +1,89 @@
-import React from "react"
-import { InboxOutlined } from "@ant-design/icons"
-import type { UploadProps } from "antd"
-import { message, Upload } from "antd"
+import React from 'react'
+import {
+  LaptopOutlined,
+  NotificationOutlined,
+  UserOutlined,
+} from '@ant-design/icons'
+import type { MenuProps } from 'antd'
+import { Breadcrumb, Layout, Menu, theme } from 'antd'
 
-const { Dragger } = Upload
+const { Header, Content, Sider } = Layout
 
-const url = "http://124.223.90.145:8081/fileUpload"
+const features: MenuProps['items'] = ['评分', '上传'].map((key) => ({
+  key,
+  label: `${key}`,
+}))
 
-const props: UploadProps = {
-  name: "file",
-  multiple: true,
-  action: url,
-  onChange(info) {
-    const { status } = info.file
-    if (status !== "uploading") {
-      console.log(info.file, info.fileList)
-    }
-    if (status === "done") {
-      message.success(`${info.file.name} file uploaded successfully.`)
-    } else if (status === "error") {
-      message.error(`${info.file.name} file upload failed.`)
-    }
-  },
-  onDrop(e) {
-    console.log("Dropped files", e.dataTransfer.files)
-  },
+const images: MenuProps['items'] = [
+  UserOutlined,
+  LaptopOutlined,
+  NotificationOutlined,
+].map((icon, index) => {
+  const key = String(index + 1)
+
+  return {
+    key: `sub${key}`,
+    icon: React.createElement(icon),
+    label: `子项${key}`,
+
+    children: new Array(4).fill(null).map((_, j) => {
+      const subKey = index * 4 + j + 1
+      return {
+        key: subKey,
+        label: `option${subKey}`,
+      }
+    }),
+  }
+})
+
+const App: React.FC = () => {
+  const {
+    token: { colorBgContainer },
+  } = theme.useToken()
+
+  return (
+    <Layout style={{ height: '100vh' }}>
+      <Header className="header">
+        <div className="logo" />
+        <Menu
+          theme="dark"
+          mode="horizontal"
+          defaultSelectedKeys={['1']}
+          items={features}
+        />
+      </Header>
+      <Layout>
+        <Sider width={200} style={{ background: colorBgContainer }}>
+          <Menu
+            mode="inline"
+            defaultSelectedKeys={['1']}
+            defaultOpenKeys={['sub1']}
+            style={{ height: '100%', borderRight: 0 }}
+            items={images}
+          />
+        </Sider>
+        <Layout style={{ padding: '1.5rem' }}>
+          {/* // TODO: work with react-router-dom */}
+          {/* <Breadcrumb style={{ margin: '16px 0' }}>
+            <Breadcrumb.Item>Home</Breadcrumb.Item>
+            <Breadcrumb.Item>List</Breadcrumb.Item>
+            <Breadcrumb.Item>App</Breadcrumb.Item>
+          </Breadcrumb> */}
+
+          <Content
+            style={{
+              padding: 24,
+              margin: 0,
+              minHeight: '280px',
+              background: colorBgContainer,
+            }}
+          >
+            Content
+          </Content>
+        </Layout>
+      </Layout>
+    </Layout>
+  )
 }
-
-const App: React.FC = () => (
-  <Dragger {...props}>
-    <p className="ant-upload-drag-icon">
-      <InboxOutlined />
-    </p>
-    <p className="ant-upload-text">点击或拖拽来上传</p>
-    <p className="ant-upload-hint">支持多个文件</p>
-  </Dragger>
-)
 
 export default App
