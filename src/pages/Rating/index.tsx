@@ -1,55 +1,39 @@
 import React from 'react'
-import type { MenuProps } from 'antd'
-import {
-  LaptopOutlined,
-  NotificationOutlined,
-  UserOutlined,
-} from '@ant-design/icons'
 import { Breadcrumb, Layout, Menu, theme } from 'antd'
+import { useRequest } from 'ahooks'
+import { getImageList } from '../../api'
+import { genGroupList } from './utils'
+import { ItemType } from 'antd/es/menu/hooks/useItems'
 
 const { Content, Sider } = Layout
 
-const images: MenuProps['items'] = [
-  UserOutlined,
-  LaptopOutlined,
-  NotificationOutlined,
-].map((icon, index) => {
-  const key = String(index + 1)
-
-  return {
-    key: `sub${key}`,
-    icon: React.createElement(icon),
-    label: `子项${key}`,
-
-    children: new Array(4).fill(null).map((_, j) => {
-      const subKey = index * 4 + j + 1
-      return {
-        key: subKey,
-        label: `option${subKey}`,
-      }
-    }),
-  }
-})
-
 export const RatingPage = () => {
+  const [groupList, setGroupList] = React.useState<ItemType[]>([])
+
   const {
     token: { colorBgContainer },
   } = theme.useToken()
 
+  const { loading } = useRequest(getImageList, {
+    onSuccess(res) {
+      setGroupList(genGroupList(res) as ItemType[])
+    },
+  })
+
   return (
     <>
       <Sider width={200}>
-        <Menu
-          mode="inline"
-          defaultSelectedKeys={['1']}
-          defaultOpenKeys={['sub1']}
-          style={{
-            height: '100%',
-            borderRight: 0,
-            background: colorBgContainer,
-          }}
-          items={images}
-        />
+        {!loading && (
+          <Menu
+            mode="inline"
+            style={{
+              height: '100%',
+              borderRight: 0,
+              background: colorBgContainer,
+            }}
+            items={groupList}
+          />
+        )}
       </Sider>
 
       <Layout style={{ padding: '1.5rem' }}>

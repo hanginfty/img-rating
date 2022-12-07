@@ -5,10 +5,12 @@ import { message, Upload, Layout, theme } from 'antd'
 
 const { Dragger } = Upload
 
+const uploadUrl = import.meta.env.BASE_URL + '/fileUpload'
+
 const props: UploadProps = {
   name: 'file',
   multiple: true,
-  action: import.meta.env.url,
+  action: uploadUrl,
   onChange(info) {
     const { status } = info.file
     if (status !== 'uploading') {
