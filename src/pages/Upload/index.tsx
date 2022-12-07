@@ -35,6 +35,7 @@ export const UploadPage: React.FC = () => {
       style={{
         height: '100vh',
         margin: '1.5rem',
+        borderRadius: '.8rem',
         background: colorBgContainer,
       }}
     >

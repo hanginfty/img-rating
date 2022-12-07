@@ -9,7 +9,7 @@ import { router } from './routes'
 
 const globalTheme = {
   algorithm: theme.defaultAlgorithm,
-  borderRadius: 10,
+  borderRadius: 12,
 }
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(

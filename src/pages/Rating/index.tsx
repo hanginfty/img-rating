@@ -62,9 +62,9 @@ export const RatingPage = () => {
 
         <Content
           style={{
-            padding: 24,
+            padding: '1.5rem',
             margin: 0,
-            minHeight: '280px',
+            borderRadius: '.8rem',
             background: colorBgContainer,
           }}
         >

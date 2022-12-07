@@ -11,19 +11,10 @@ export const router = createBrowserRouter([
     element: <App />,
     errorElement: <NotFoundPage />,
     children: [
+      { index: true, element: <RatingPage /> },
       { path: 'rating', element: <RatingPage /> },
       { path: 'login', element: <LoginPage /> },
       { path: 'upload', element: <UploadPage /> },
     ],
   },
 ])
-
-// export const router = createBrowserRouter([
-//   {
-//     path: '/',
-//     element: <App />,
-//     errorElement: <NotFoundPage />,
-//   },
-//   { path: 'login', element: <LoginPage /> },
-//   { path: 'upload', element: <UploadPage /> },
-// ])
