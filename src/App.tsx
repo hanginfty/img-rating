@@ -2,7 +2,7 @@ import React from 'react'
 import { CloudUploadOutlined, StarFilled } from '@ant-design/icons'
 import type { MenuProps } from 'antd'
 import { Layout, Menu } from 'antd'
-import { Link, Outlet, redirect } from 'react-router-dom'
+import { Link, Outlet } from 'react-router-dom'
 
 const { Header } = Layout
 
